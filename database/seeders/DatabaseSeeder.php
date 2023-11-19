@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,5 +24,12 @@ class DatabaseSeeder extends Seeder
             'is_superadmin' => false,
             'email' => 'user@example.com',
         ]);
+
+
+        Category::truncate();
+        Category::create(['name' => 'Can Food']);
+        Category::create(['name' => 'Dairy']);
+        Category::create(['name' => 'Snacks']);
+        Category::create(['name' => 'Vegitable']);
     }
 }
