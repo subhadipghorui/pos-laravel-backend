@@ -41,6 +41,7 @@ Route::group(['middleware' => 'auth'], function($routes){
     // Product management
     Route::group(['prefix' => 'v1/products'], function($routes){
         Route::get('/list', [ProductController::class, 'index']);
+        Route::get('/initForm', [ProductController::class, 'initForm']);
         Route::post('/', [ProductController::class, 'store']);
         Route::get('/{id}', [ProductController::class, 'show']);
         Route::post('/{id}', [ProductController::class, 'update']);

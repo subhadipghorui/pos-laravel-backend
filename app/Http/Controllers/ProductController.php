@@ -28,6 +28,19 @@ class ProductController extends Controller
     }
 
 
+     /**
+     * Display a listing of the resource.
+     */
+    public function initForm()
+    {
+        try {
+            $data['categories'] = DB::table('categories')->select('id', 'name')->get();
+            return $this->sendResponse("List fetched successfully", $data, 200);
+        } catch (Exception $e) {
+            return $this->handleException($e);
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -130,7 +143,7 @@ class ProductController extends Controller
             DB::beginTransaction();
             $data['product'] = $data['product']->update($postData);
             DB::commit();
-            return $this->sendResponse("product created successfully.", $data, 201);
+            return $this->sendResponse("product updated successfully.", $data, 201);
         } catch (Exception $e) {
             DB::rollBack();
             return $this->handleException($e);
