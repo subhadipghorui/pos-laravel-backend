@@ -124,4 +124,24 @@ class CustomerController extends Controller
             return $this->handleException($e);
         }
     }
+
+    public function getList(Request $request){
+        try{
+            $query = DB::table('customers');
+            if(!empty($request->search)){
+                $query->where(function($query) use ($request){
+                    $query->orWhere(DB::raw("CONCAT(first_name,' ', last_name)"), 'like', '%'.$request->search.'%');
+                    $query->orWhere('last_name', 'like', '%'.$request->search.'%');
+                    $query->orWhere('email', 'like', '%'.$request->search.'%');
+                    $query->orWhere('phone_number', 'like', '%'.$request->search.'%');
+                    $query->orWhere('zip_code', 'like', '%'.$request->search.'%');
+                });
+            }
+            $data['customers'] = $query->orderBy('first_name')->limit(100)->get(['id', DB::raw("CONCAT(first_name, ' ', last_name) as label")]);
+            return $this->sendResponse("List fetched successfully", $data, 200);
+        } catch(\Exception $e){
+            DB::rollBack();
+            return $this->handleException($e);
+        }
+    }
 }
